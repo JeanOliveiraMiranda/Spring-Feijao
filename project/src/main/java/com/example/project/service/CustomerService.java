@@ -1,8 +1,10 @@
 package com.example.project.service;
 
 import java.util.List;
+import java.util.Optional;
 
-import com.example.project.domain.Customer;
+import com.example.project.domain.entities.Customer;
+import com.example.project.exception.DataNotFoundException;
 import com.example.project.repository.CustomerRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,5 +18,12 @@ public class CustomerService {
 
     public List<Customer> list() {
         return customerRepository.findAll();
+    }
+
+    public Customer findById(Integer id) {
+        Optional<Customer> customer = customerRepository.findById(id);
+
+        return customer.orElseThrow(() -> new DataNotFoundException("Customer Not found"));
+
     }
 }
